@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 
+import fr.corentin.ui.game.Game;
 import fr.corentin.ui.image.ImageManager;
 import lombok.Getter;
 
@@ -65,8 +66,13 @@ public class Player {
 	 * Méthode de déplacement du player
 	 */
 	public void move(){
-		x += dx;
-		y += dy;
+		
+		if((dx > 0 && x <= (Game.SCREEN_WIDTH - Game.TILE_SIZE * Game.SCALE)) || (dx < 0 && x >= 0)) {
+			x += dx;
+		}
+		if((dy > 0 && y < (Game.SCREEN_HEIGTH - Game.TILE_SIZE * Game.SCALE)) || (dy < 0 && y >= 0)) {
+			y += dy;
+		}
 	}
 	
 	/**

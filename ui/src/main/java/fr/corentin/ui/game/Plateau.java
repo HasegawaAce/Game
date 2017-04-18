@@ -91,13 +91,12 @@ public class Plateau extends JPanel implements ActionListener {
 	private void doDrawing(Graphics g) {
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(player.getImage(), player.getX(), player.getY(), this);
+		g2d.drawImage(player.getImage(), player.getX(), player.getY(), Game.TILE_SIZE * Game.SCALE, Game.TILE_SIZE * Game.SCALE, this);
 	}
 
 	/**
 	 * Adaptateur des actions de touches liés au personnage.
-	 * 
-	 * @author primael
+	 * @author Petit Gato
 	 *
 	 */
 	private class Adapter extends KeyAdapter {

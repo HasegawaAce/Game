@@ -1,9 +1,8 @@
 package fr.corentin.ui.frames;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 
+import fr.corentin.ui.game.Game;
 import fr.corentin.ui.game.Plateau;
 
 public class MovingSprite extends JFrame {
@@ -17,7 +16,7 @@ public class MovingSprite extends JFrame {
 	private void initUI() {
 		add(new Plateau());
 		
-		setSize(800, 600);
+		setSize(Game.SCREEN_WIDTH, Game.SCREEN_HEIGTH);
 		setResizable(false);
 		
 		setTitle("Mon jeu à moi");
@@ -25,14 +24,5 @@ public class MovingSprite extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	public static void main(String[] args) {
-		
-		EventQueue.invokeLater(new Runnable() {
-			
-			public void run() {
-				MovingSprite movingSprite = new MovingSprite();
-				movingSprite.setVisible(true);
-			}
-		});
-	}
+
 }
