@@ -9,19 +9,21 @@ public class Game {
 	/**
 	 * delimite la largeur de la fenetre 
 	 */
-	public static final int SCREEN_WIDTH = 800; 
+	public static final int SCREEN_WIDTH = 1000; 
 	
 	/**
 	 * delimite la heuteur de la fenetre 
 	 */
-	public static final int SCREEN_HEIGTH = 300; 
+	public static final int SCREEN_HEIGTH = 700; 
 	
 	/**
 	 * taille de personnage de la fueille de sprite (spritesheet) 
 	 */
 	public static final int TILE_SIZE = 16; 
 	
-	public static final int SCALE = 5; 
+	public static final int SCALE = 5;
+
+	public static final int MONSTERS = 1; 
 	
 	public static void main(String[] args) {
 		

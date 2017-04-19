@@ -6,9 +6,9 @@ import javax.imageio.ImageIO;
 
 import lombok.SneakyThrows;
 
-/**
+/** 
  * Classe permettant de charger les images.
- * @author primael
+ * @author Petit Gato
  *
  */
 public class ImageLoader {

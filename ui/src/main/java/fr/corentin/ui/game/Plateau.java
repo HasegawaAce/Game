@@ -9,10 +9,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import fr.corentin.ui.characters.Monster;
 import fr.corentin.ui.characters.Player;
 import fr.corentin.ui.image.ImageLoader;
 import fr.corentin.ui.image.ImageManager;
@@ -20,8 +23,7 @@ import fr.corentin.ui.image.SpriteSheet;
 
 /**
  * Classe représentant le plateau de jeu
- * 
- * @author primael
+ * @author Petit Gato
  *
  */
 public class Plateau extends JPanel implements ActionListener {
@@ -31,6 +33,8 @@ public class Plateau extends JPanel implements ActionListener {
 	private Timer timer;
 
 	private Player player;
+	
+	private List<Monster> monsters;
 
 	private final int DELAY = 10;
 	
@@ -55,12 +59,20 @@ public class Plateau extends JPanel implements ActionListener {
 		
 		ImageLoader imageLoader = new ImageLoader();		
 		BufferedImage bufferedImage = imageLoader.load("/SpriteSheet.png");
+		BufferedImage bufferedImageMonster = imageLoader.load("/monsterSpriteSheet.gif");
 		
 		SpriteSheet spriteSheet = new SpriteSheet(bufferedImage);
-		imageManager = new ImageManager(spriteSheet);
+		SpriteSheet spriteSheetMonster = new SpriteSheet(bufferedImageMonster);
+		
+		imageManager = new ImageManager(spriteSheet, spriteSheetMonster);
 		
 		player = new Player(imageManager);
-
+		monsters = new ArrayList<>();
+		
+		for(int i = 0; i < Game.MONSTERS ; i++){
+			monsters.add(new Monster(imageManager));
+		}
+		
 		timer = new Timer(DELAY, this);
 		timer.start();
 	}
@@ -80,6 +92,7 @@ public class Plateau extends JPanel implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		player.move();
+		monsters.stream().forEach(monster -> monster.move());
 		// On demande à redessiner le monde
 		repaint();
 	}
@@ -92,6 +105,9 @@ public class Plateau extends JPanel implements ActionListener {
 
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(player.getImage(), player.getX(), player.getY(), Game.TILE_SIZE * Game.SCALE, Game.TILE_SIZE * Game.SCALE, this);
+		
+		monsters.stream().forEach(monster -> g2d.drawImage(monster.getImage(), monster.getX(), monster.getY(), Game.TILE_SIZE * Game.SCALE, Game.TILE_SIZE * Game.SCALE, this));
+		
 	}
 
 	/**

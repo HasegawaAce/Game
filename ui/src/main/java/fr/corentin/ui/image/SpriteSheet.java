@@ -2,9 +2,9 @@ package fr.corentin.ui.image;
 
 import java.awt.image.BufferedImage;
 
-/**
- * Classe représentant la feuille de sprite
- * @author primael
+/** 
+ *  Classe représentant la feuille de sprite
+ * @author Petit Gato
  *
  */
 public class SpriteSheet {
@@ -27,7 +27,7 @@ public class SpriteSheet {
 	 * @param height hauteur du sprite
 	 * @return L'image cropper
 	 */
-	public BufferedImage crop(int col, int row, int widht, int height){
-		return sheet.getSubimage(col * 16, row * 16, widht, height);
+	public BufferedImage crop(int col, int row, int colsize, int rowsize, int widht, int height){
+		return sheet.getSubimage(col * colsize, row * rowsize, widht, height);
 	}
 }
