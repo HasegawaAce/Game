@@ -1,12 +1,15 @@
 package fr.corentin.ui.characters;
 
-import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
 import fr.corentin.ui.game.Game;
 import fr.corentin.ui.image.ImageManager;
+import fr.corentin.ui.sprites.Bullet;
+import fr.corentin.ui.sprites.Sprite;
 import lombok.Getter;
 
 /**
@@ -15,35 +18,7 @@ import lombok.Getter;
  * @author Petit Gato
  *
  */
-public class Player {
-
-	/**
-	 * Direction x
-	 */
-	private int dx;
-
-	/**
-	 * Direction y
-	 */
-	private int dy;
-
-	/**
-	 * Position x
-	 */
-	@Getter
-	private int x;
-
-	/**
-	 * Position y
-	 */
-	@Getter
-	private int y;
-
-	/**
-	 * Image du joueur
-	 */
-	@Getter
-	private Image image;
+public final class Player extends Sprite {
 
 	/**
 	 * Colonne courante du spriteSheet
@@ -60,6 +35,9 @@ public class Player {
 	private int currentRow = 2;
 
 	private ImageManager imageManager;
+	
+	@Getter 
+	private List<Bullet> bullets = new ArrayList<>();
 
 	/**
 	 * Initialisation du player
@@ -82,6 +60,7 @@ public class Player {
 	/**
 	 * Méthode de déplacement du player
 	 */
+	@Override
 	public void move() {
 
 		if ((dx > 0 && x <= (Game.SCREEN_WIDTH - Game.TILE_SIZE * Game.SCALE)) || (dx < 0 && x >= 0)) {
@@ -144,6 +123,9 @@ public class Player {
 		case KeyEvent.VK_DOWN:
 			dy = 1;
 			break;
+		case KeyEvent.VK_SPACE:
+			fire();
+			break;
 		default:
 			break;
 		}
@@ -176,5 +158,11 @@ public class Player {
 		default:
 			break;
 		}
+	}
+	
+	private void fire(){
+		Bullet bullet = new Bullet(imageManager, x + (Game.TILE_SIZE * Game.SCALE)/2, y + (Game.TILE_SIZE * Game.SCALE)/2);
+		bullet.setDx(1);
+		bullets.add(bullet);
 	}
 }

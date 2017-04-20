@@ -1,13 +1,12 @@
 package fr.corentin.ui.characters;
 
-import java.awt.Image;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 
 import fr.corentin.ui.game.Game;
 import fr.corentin.ui.image.ImageManager;
-import lombok.Getter;
+import fr.corentin.ui.sprites.Sprite;
 
 /**
  * Classe représentant un Monstre dans le jeu
@@ -15,35 +14,7 @@ import lombok.Getter;
  * @author Petit Gato
  *
  */
-public class Monster {
-
-	/**
-	 * Direction x
-	 */
-	private int dx;
-
-	/**
-	 * Direction y
-	 */
-	private int dy;
-
-	/**
-	 * Position x
-	 */
-	@Getter
-	private int x;
-
-	/**
-	 * Position y
-	 */
-	@Getter
-	private int y;
-
-	/**
-	 * Image du monstre
-	 */
-	@Getter
-	private Image image;
+public class Monster extends Sprite {
 
 	/**
 	 * Initialisation du monstre
@@ -66,6 +37,7 @@ public class Monster {
 	/**
 	 * Méthode de déplacement du monstre (Ramdom)
 	 */
+	@Override
 	public void move() {
 		Random random = new Random();
 		// 10% de chance de déplacement

@@ -20,6 +20,7 @@ import fr.corentin.ui.characters.Player;
 import fr.corentin.ui.image.ImageLoader;
 import fr.corentin.ui.image.ImageManager;
 import fr.corentin.ui.image.SpriteSheet;
+import fr.corentin.ui.sprites.Bullet;
 
 /**
  * Classe représentant le plateau de jeu
@@ -39,7 +40,7 @@ public class Plateau extends JPanel implements ActionListener {
 	private final int DELAY = 10;
 	
 	private ImageManager imageManager;
-
+	
 	/**
 	 * Constructeur de la classe
 	 */
@@ -60,11 +61,13 @@ public class Plateau extends JPanel implements ActionListener {
 		ImageLoader imageLoader = new ImageLoader();		
 		BufferedImage bufferedImage = imageLoader.load("/SpriteSheet.png");
 		BufferedImage bufferedImageMonster = imageLoader.load("/monsterSpriteSheet.gif");
+		BufferedImage bufferedImageBullet = imageLoader.load("/bulletSpriteSheet.png");
 		
 		SpriteSheet spriteSheet = new SpriteSheet(bufferedImage);
 		SpriteSheet spriteSheetMonster = new SpriteSheet(bufferedImageMonster);
+		SpriteSheet spriteSheetBullet = new SpriteSheet(bufferedImageBullet);
 		
-		imageManager = new ImageManager(spriteSheet, spriteSheetMonster);
+		imageManager = new ImageManager(spriteSheet, spriteSheetMonster, spriteSheetBullet);
 		
 		player = new Player(imageManager);
 		monsters = new ArrayList<>();
@@ -91,8 +94,13 @@ public class Plateau extends JPanel implements ActionListener {
 	 * Méthode permettant de lancer les actions
 	 */
 	public void actionPerformed(ActionEvent e) {
+		
+		// deplace le joueur
 		player.move();
+		// deplace tout les éléments "monstre" de la liste
 		monsters.stream().forEach(monster -> monster.move());
+		//deplace tout les éléments "bullet" de la liste
+		player.getBullets().stream().forEach(bullet -> bullet.move());
 		// On demande à redessiner le monde
 		repaint();
 	}
@@ -128,4 +136,6 @@ public class Plateau extends JPanel implements ActionListener {
 		}
 
 	}
+	
+
 }
