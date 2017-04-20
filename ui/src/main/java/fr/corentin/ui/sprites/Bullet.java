@@ -4,8 +4,6 @@ import javax.swing.ImageIcon;
 
 import fr.corentin.ui.game.Game;
 import fr.corentin.ui.image.ImageManager;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Classe gérant le projectile du player
@@ -15,48 +13,25 @@ import lombok.Setter;
 
 public class Bullet extends Sprite {
 
-	private boolean visible = true;
-
+	private int vitesse;
+	
 	@Override
 	public void move() {
-		x+=dx+1;
+		setX(getX() + getDx() * vitesse);
+		setY(getY() + getDy() * vitesse);
 	}
 	
-	public Bullet(ImageManager imageManager, int x, int y){
-		initBullet(imageManager, x, y);
+	public Bullet(ImageManager imageManager, int x, int y, int vitesse){
+		initBullet(imageManager, x, y, vitesse);
 	}
 	
-	private void initBullet(ImageManager imageManager, int x, int y) {
+	private void initBullet(ImageManager imageManager, int x, int y, int vitesse) {
 		ImageIcon ii = new ImageIcon(imageManager.getBullet());
-		image = ii.getImage();
-		this.x = x;
-		this.y = y;
-	}
-	 
-	/**
-	 * Direction x
-	 */
-	@Setter
-	protected int dx;
-
-	/**
-	 * Direction y
-	 */
-	protected int dy;
-
-	/**
-	 * Position x
-	 */
-	@Getter
-	protected int x;
-
-	/**
-	 * Position y
-	 */
-	@Getter
-	protected int y;
-	
-
-	
-	
+		setImage(ii.getImage());
+		setX(x);
+		setY(y);
+		setWidth(Game.TILE_SIZE);
+		setHeight(Game.TILE_SIZE);
+		this.vitesse = vitesse;
+	}	
 }

@@ -21,9 +21,11 @@ public class Game {
 	 */
 	public static final int TILE_SIZE = 16; 
 	
-	public static final int SCALE = 5;
+	public static final int SCALE = 4;
 
-	public static final int MONSTERS = 1; 
+	public static final int MONSTERS = 10;
+
+	public static final boolean DEBUG = true; 
 	
 	public static void main(String[] args) {
 		

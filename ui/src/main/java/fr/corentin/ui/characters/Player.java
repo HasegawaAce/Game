@@ -2,10 +2,14 @@ package fr.corentin.ui.characters;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import fr.corentin.core.Joueur;
+import fr.corentin.ui.game.Armurerie;
 import fr.corentin.ui.game.Game;
 import fr.corentin.ui.image.ImageManager;
 import fr.corentin.ui.sprites.Bullet;
@@ -20,6 +24,9 @@ import lombok.Getter;
  */
 public final class Player extends Sprite {
 
+	@Getter
+	private Map<String, Long> cooldowns = new HashMap<>();
+	
 	/**
 	 * Colonne courante du spriteSheet
 	 */
@@ -35,9 +42,16 @@ public final class Player extends Sprite {
 	private int currentRow = 2;
 
 	private ImageManager imageManager;
-	
-	@Getter 
+
+	@Getter
 	private List<Bullet> bullets = new ArrayList<>();
+
+	private int lastDx;
+
+	private int lastDy = 1;
+
+	@Getter
+	private Joueur joueur;
 
 	/**
 	 * Initialisation du player
@@ -52,9 +66,24 @@ public final class Player extends Sprite {
 	 */
 	private void initPlayer(ImageManager imageManager) {
 		ImageIcon ii = new ImageIcon(imageManager.getPlayer());
-		image = ii.getImage();
-		x = 40;
-		y = 60;
+		setImage(ii.getImage());
+		setX(40);
+		setY(60);
+
+		setXOffset(25);
+		setYOffset(10);
+
+		setWidth(Game.TILE_SIZE * Game.SCALE);
+		setHeight(Game.TILE_SIZE * Game.SCALE);
+
+		joueur = new Joueur();
+		joueur.setArme(Armurerie.MITRAILLEUSE.getInstance());
+		
+		cooldowns.put("tir", 0l);
+		//cooldowns.put("create", 0l);
+		
+		joueur.setNombreVie(6);
+		joueur.setNombreVieMax(6);
 	}
 
 	/**
@@ -63,24 +92,44 @@ public final class Player extends Sprite {
 	@Override
 	public void move() {
 
-		if ((dx > 0 && x <= (Game.SCREEN_WIDTH - Game.TILE_SIZE * Game.SCALE)) || (dx < 0 && x >= 0)) {
-			x += dx;
-			if (dx > 0) {
+		if ((getDx() > 0 && getX() <= (Game.SCREEN_WIDTH - Game.TILE_SIZE * Game.SCALE))
+				|| (getDx() < 0 && getX() >= 0)) {
+			setX(getX() + getDx());
+			if (getDx() > 0) {
 				animationSprite(3);
 			}
-			if (dx < 0) {
+			if (getDx() < 0) {
 				animationSprite(1);
 			}
+			if (getDy() == 0) {
+				lastDx = getDx();
+				lastDy = 0;
+			}
 		}
-		if ((dy > 0 && y < (Game.SCREEN_HEIGTH - Game.TILE_SIZE * Game.SCALE)) || (dy < 0 && y >= 0)) {
-			y += dy;
-			if (dy > 0) {
+		if ((getDy() > 0 && getY() < (Game.SCREEN_HEIGTH - Game.TILE_SIZE * Game.SCALE))
+				|| (getDy() < 0 && getY() >= 0)) {
+			setY(getY() + getDy());
+			if (getDy() > 0) {
 				animationSprite(2);
 			}
-			if (dy < 0) {
+			if (getDy() < 0) {
 				animationSprite(0);
 			}
+			if (getDx() == 0) {
+				lastDx = 0;
+				lastDy = getDy();
+			}
 		}
+		
+		if(cooldowns.containsKey("create") && System.currentTimeMillis() - cooldowns.get("create") > joueur.getArme().getTimeBulletCreate()){
+			joueur.getArme().addBalle();
+			if(joueur.getArme().getNombreBalle() == joueur.getArme().getNombreBalleMax()){
+				cooldowns.remove("create");
+			} else {
+				cooldowns.put("create", System.currentTimeMillis());
+			}
+		}
+
 	}
 
 	private void animationSprite(int row) {
@@ -96,7 +145,7 @@ public final class Player extends Sprite {
 		}
 
 		ImageIcon ii = new ImageIcon(imageManager.getSheetPlayer().crop(currentCol, currentRow, 64, 64, 64, 64));
-		image = ii.getImage();
+		setImage(ii.getImage());
 	}
 
 	/**
@@ -112,16 +161,16 @@ public final class Player extends Sprite {
 
 		switch (key) {
 		case KeyEvent.VK_LEFT:
-			dx = -1;
+			setDx(-1);
 			break;
 		case KeyEvent.VK_RIGHT:
-			dx = 1;
+			setDx(1);
 			break;
 		case KeyEvent.VK_UP:
-			dy = -1;
+			setDy(-1);
 			break;
 		case KeyEvent.VK_DOWN:
-			dy = 1;
+			setDy(1);
 			break;
 		case KeyEvent.VK_SPACE:
 			fire();
@@ -144,25 +193,51 @@ public final class Player extends Sprite {
 
 		switch (key) {
 		case KeyEvent.VK_LEFT:
-			dx = 0;
+			setDx(0);
 			break;
 		case KeyEvent.VK_RIGHT:
-			dx = 0;
+			setDx(0);
 			break;
 		case KeyEvent.VK_UP:
-			dy = 0;
+			setDy(0);
 			break;
 		case KeyEvent.VK_DOWN:
-			dy = 0;
+			setDy(0);
 			break;
 		default:
 			break;
 		}
 	}
-	
-	private void fire(){
-		Bullet bullet = new Bullet(imageManager, x + (Game.TILE_SIZE * Game.SCALE)/2, y + (Game.TILE_SIZE * Game.SCALE)/2);
-		bullet.setDx(1);
-		bullets.add(bullet);
+
+	private void fire() {
+
+		if (joueur.getArme().getNombreBalle() > 0 && System.currentTimeMillis() - cooldowns.get("tir") > joueur.getArme().getCoolDown()) {
+			joueur.getArme().setNombreBalle(joueur.getArme().getNombreBalle() - 1);
+
+			Bullet bullet = new Bullet(imageManager, getX() + (Game.TILE_SIZE * Game.SCALE) / 2,
+					getY() + (Game.TILE_SIZE * Game.SCALE) / 2, joueur.getArme().getVitesse());
+			if (getDx() == 0 && getDy() == 0) {
+				bullet.setDx(lastDx);
+				bullet.setDy(lastDy);
+			} else {
+				bullet.setDx(getDx());
+				bullet.setDy(getDy());
+			}
+			
+			bullets.add(bullet);
+			cooldowns.put("tir", System.currentTimeMillis());
+			
+			if(!cooldowns.containsKey("create")){
+				cooldowns.put("create", System.currentTimeMillis());
+			}
+		}
 	}
+
+	public void lostLife(int nbrVie) {
+		this.joueur.setNombreVie(this.joueur.getNombreVie() - nbrVie);
+		if (this.joueur.getNombreVie() <= 0) {
+			this.setVisible(false);
+		}
+	}
+
 }
