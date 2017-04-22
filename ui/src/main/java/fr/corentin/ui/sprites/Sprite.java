@@ -2,13 +2,14 @@ package fr.corentin.ui.sprites;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.util.Observable;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Sprite {
+public abstract class Sprite extends Observable {
 
 	/**
 	 * Direction x

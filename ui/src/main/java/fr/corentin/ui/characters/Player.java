@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 
@@ -22,7 +24,7 @@ import lombok.Getter;
  * @author Petit Gato
  *
  */
-public final class Player extends Sprite {
+public final class Player extends Sprite{
 
 	@Getter
 	private Map<String, Long> cooldowns = new HashMap<>();
@@ -70,7 +72,7 @@ public final class Player extends Sprite {
 		setX(40);
 		setY(60);
 
-		setXOffset(25);
+		setXOffset(15);
 		setYOffset(10);
 
 		setWidth(Game.TILE_SIZE * Game.SCALE);
@@ -239,5 +241,7 @@ public final class Player extends Sprite {
 			this.setVisible(false);
 		}
 	}
-
+	
+	
 }
+

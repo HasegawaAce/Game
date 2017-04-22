@@ -9,7 +9,7 @@ public class Game {
 	/**
 	 * delimite la largeur de la fenetre 
 	 */
-	public static final int SCREEN_WIDTH = 1000; 
+	public static final int SCREEN_WIDTH = 1300; 
 	
 	/**
 	 * delimite la heuteur de la fenetre 
@@ -21,7 +21,7 @@ public class Game {
 	 */
 	public static final int TILE_SIZE = 16; 
 	
-	public static final int SCALE = 4;
+	public static final int SCALE = 3;
 
 	public static final int MONSTERS = 10;
 

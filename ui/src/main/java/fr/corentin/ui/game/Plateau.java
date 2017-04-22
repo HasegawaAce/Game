@@ -74,14 +74,16 @@ public class Plateau extends JPanel implements ActionListener {
 		BufferedImage bufferedImageBullet = imageLoader.load("/bulletSpriteSheet.png");
 		BufferedImage bufferedImageSlime = imageLoader.load("/slime.png");
 		BufferedImage bufferedImageLeeche = imageLoader.load("/undead.png");
+		BufferedImage bufferedImageMomie = imageLoader.load("/momie.png");
 		
 		SpriteSheet spriteSheet = new SpriteSheet(bufferedImage);
 		SpriteSheet spriteSheetMonster = new SpriteSheet(bufferedImageMonster);
 		SpriteSheet spriteSheetBullet = new SpriteSheet(bufferedImageBullet);
 		SpriteSheet spriteSheetSlime = new SpriteSheet(bufferedImageSlime);
 		SpriteSheet spriteSheetLeeche = new SpriteSheet(bufferedImageLeeche);
+		SpriteSheet spriteSheetMomie = new SpriteSheet(bufferedImageMomie);
 		
-		imageManager = new ImageManager(spriteSheet, spriteSheetMonster, spriteSheetBullet, spriteSheetSlime, spriteSheetLeeche);
+		imageManager = new ImageManager(spriteSheet, spriteSheetMonster, spriteSheetBullet, spriteSheetSlime, spriteSheetLeeche, spriteSheetMomie);
 
 		player = new Player(imageManager);
 		monsters = new ArrayList<>();

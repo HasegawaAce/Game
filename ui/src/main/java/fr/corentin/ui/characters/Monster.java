@@ -2,6 +2,8 @@ package fr.corentin.ui.characters;
 
 import java.awt.Rectangle;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -20,7 +22,7 @@ import lombok.Getter;
  * @author Petit Gato
  *
  */
-public class Monster extends Sprite {
+public class Monster extends Sprite  implements Observer {
 
 	@Getter
 	private Monstre monstre;
@@ -88,6 +90,12 @@ public class Monster extends Sprite {
 							getY() - getMonstre().getRayonObservation(),
 							getWidth() + getMonstre().getRayonObservation() * 2,
 							getHeight() + getMonstre().getRayonObservation() * 2);
+		
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		
 		
 	}
 }

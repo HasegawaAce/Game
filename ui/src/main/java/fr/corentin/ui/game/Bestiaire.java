@@ -6,6 +6,7 @@ import java.util.List;
 import fr.corentin.core.Monstre;
 import fr.corentin.core.monstres.Demon;
 import fr.corentin.ui.characters.monsters.LeecheMonster;
+import fr.corentin.ui.characters.monsters.MomieMonster;
 import fr.corentin.ui.characters.monsters.SlimeMonster;
 
 public enum Bestiaire {
@@ -13,6 +14,7 @@ public enum Bestiaire {
 	SLIME(1),
 	DEMON(4),
 	LEECHE(5),
+	MOMIE(2)
 	;
 	
 	private final int levelMin;
@@ -41,6 +43,8 @@ public enum Bestiaire {
 			return new Demon();
 		case LEECHE:
 			return new LeecheMonster();
+		case MOMIE:
+			return new MomieMonster();
 		default:
 			return null;
 		}
