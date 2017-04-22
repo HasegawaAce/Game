@@ -59,30 +59,6 @@ public class Monster extends Sprite  implements Observer {
 
 		setImage(ii.getImage());
 	}
-
-	/**
-	 * Méthode de déplacement du monstre (Ramdom)
-	 */
-	@Override
-	public void move() {
-		Random random = new Random();
-		// 10% de chance de déplacement
-		int deplacement = random.nextInt(100) + 1;
-
-		if (deplacement <= 10) {
-			setDx(random.nextInt(2) == 0 ? -1 : 1);
-			setDy(random.nextInt(2) == 0 ? -1 : 1);
-			if ((getDx() > 0 && getX() <= (Game.SCREEN_WIDTH - Game.TILE_SIZE * Game.SCALE)) || (getDx() < 0 && getX() >= 0)) {
-				setX(getX() + getDx());
-			}
-			if ((getDy() > 0 && getY() < (Game.SCREEN_HEIGTH - Game.TILE_SIZE * Game.SCALE)) || (getDy() < 0 && getY() >= 0)) {
-				setY(getY() + getDy());
-			}
-		} else {
-			setDx(0);
-			setDy(0);
-		}
-	}
 	
 	public Rectangle getObservationBounds(){
 		
@@ -96,6 +72,30 @@ public class Monster extends Sprite  implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		
+		//Quelle est ma position
+		//le player est à gauche ou à droite?
+		if(getX() > ((int[])arg)[0]){
+			setDx(-1);
+		} else if(getX() < ((int[])arg)[0]){
+			setDx(1);
+		} else {
+			setDx(0);
+		}
 		
+		if(getY() > ((int[])arg)[1]){
+			setDy(-1);
+		} else if(getY() < ((int[])arg)[1]){
+			setDy(1);
+		} else {
+			setDy(0);
+		}
+		
+	}
+
+	@Override
+	public void animationSprite(int i) {
+		if(monstre instanceof MonsterUI){
+			setImage(((MonsterUI)monstre).animationSprite(i));
+		}
 	}
 }

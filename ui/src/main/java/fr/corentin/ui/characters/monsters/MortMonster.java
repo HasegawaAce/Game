@@ -4,13 +4,14 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import fr.corentin.core.monstres.Momie;
+import fr.corentin.core.monstres.Mort;
 import fr.corentin.ui.image.ImageManager;
 
-public class MomieMonster extends Momie implements MonsterUI {
-private ImageManager imageManager;
+public class MortMonster extends Mort implements MonsterUI {
+
+	private ImageManager imageManager;
 	
-	private int currentCol = 0;
+	private int currentCol = 6;
 
 	private int nbCol = 3;
 
@@ -19,31 +20,29 @@ private ImageManager imageManager;
 	/**
 	 * Ligne courante du spriteSheet
 	 */
-	private int currentRow = 0;
+	private int currentRow = 4;
 	
 	@Override
 	public ImageIcon getImageIcone(ImageManager imageManager) {
 		this.imageManager = imageManager;
-		return new ImageIcon(imageManager.getMomie());
+		return new ImageIcon(imageManager.getMort());
 	}
 
 	@Override
 	public Image animationSprite(int row) {
-		if (currentRow == row) {
+		if (currentRow == row + 4) {
 			if (sleepSprite++ > 10) {
-				currentCol = (currentCol + 1) % nbCol;
+				currentCol = (currentCol + 1) % nbCol + 6;
 				sleepSprite = 0;
 			}
 		} else {
-			currentRow = row;
-			currentCol = 0;
+			currentRow = row + 4;
+			currentCol = 6;
 			sleepSprite = 0;
 		}
 
-		ImageIcon ii = new ImageIcon(imageManager.getSheetMomie().crop(currentCol, currentRow, 32, 32));
+		ImageIcon ii = new ImageIcon(imageManager.getSheetMonster().crop(currentCol, currentRow, 32, 50));
 		return ii.getImage();
 	}
 
-
 }
-

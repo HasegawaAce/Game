@@ -69,11 +69,11 @@ public class Plateau extends JPanel implements ActionListener {
 		setBackground(Color.BLACK);
 
 		ImageLoader imageLoader = new ImageLoader();
-		BufferedImage bufferedImage = imageLoader.load("/SpriteSheet.png");
-		BufferedImage bufferedImageMonster = imageLoader.load("/monsterSpriteSheet.gif");
+		BufferedImage bufferedImage = imageLoader.load("/player.png");
+		BufferedImage bufferedImageMonster = imageLoader.load("/monster.png");
 		BufferedImage bufferedImageBullet = imageLoader.load("/bulletSpriteSheet.png");
 		BufferedImage bufferedImageSlime = imageLoader.load("/slime.png");
-		BufferedImage bufferedImageLeeche = imageLoader.load("/undead.png");
+		BufferedImage bufferedImageLeeche = imageLoader.load("/leeche.png");
 		BufferedImage bufferedImageMomie = imageLoader.load("/momie.png");
 		
 		SpriteSheet spriteSheet = new SpriteSheet(bufferedImage);
@@ -89,7 +89,7 @@ public class Plateau extends JPanel implements ActionListener {
 		monsters = new ArrayList<>();
 
 		for (int i = 0; i < Game.MONSTERS; i++) {
-			monsters.add(new Monster(imageManager, 6));
+			monsters.add(new Monster(imageManager, 1));
 		}
 
 		timer = new Timer(DELAY, this);
@@ -138,6 +138,7 @@ public class Plateau extends JPanel implements ActionListener {
 			}
 			
 			if(playerHitBox.intersects(monsterObservationBox)){
+				player.addObserver(monster);
 				if(music){
 					playRun();
 				}
@@ -155,6 +156,7 @@ public class Plateau extends JPanel implements ActionListener {
 					monster.getMonstre().perdrePointVie(
 							player.getJoueur().getArme().getNombreDegat() * monster.getMonstre().getFaiblesse());
 					if (monster.getMonstre().getNombreVie() <= 0) {
+						player.deleteObserver(monster);
 						monster.setVisible(false);
 					}
 					bullet.setVisible(false);

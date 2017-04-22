@@ -27,7 +27,7 @@ public class SpriteSheet {
 	 * @param height hauteur du sprite
 	 * @return L'image cropper
 	 */
-	public BufferedImage crop(int col, int row, int colsize, int rowsize, int widht, int height){
-		return sheet.getSubimage(col * colsize, row * rowsize, widht, height);
+	public BufferedImage crop(int col, int row, int widht, int height){
+		return sheet.getSubimage(col * widht, row * height, widht, height);
 	}
 }
