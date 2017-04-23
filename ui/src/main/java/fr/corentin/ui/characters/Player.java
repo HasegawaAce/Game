@@ -241,6 +241,24 @@ public final class Player extends Sprite{
 			this.setVisible(false);
 		}
 	}
+
+	@Override
+	public synchronized void addObserver(Observer arg0) {
+		// TODO Auto-generated method stub
+		super.addObserver(arg0);
+	}
+
+	@Override
+	public synchronized void deleteObserver(Observer arg0) {
+		// TODO Auto-generated method stub
+		super.deleteObserver(arg0);
+	}
+
+	@Override
+	public void notifyObservers(Object arg0) {
+		// TODO Auto-generated method stub
+		super.notifyObservers(arg0);
+	}
 	
 	
 }

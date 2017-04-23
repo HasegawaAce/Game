@@ -80,7 +80,7 @@ public class Plateau extends JPanel implements ActionListener {
 		SpriteSheet spriteSheetMonster = new SpriteSheet(bufferedImageMonster);
 		SpriteSheet spriteSheetBullet = new SpriteSheet(bufferedImageBullet);
 		SpriteSheet spriteSheetSlime = new SpriteSheet(bufferedImageSlime);
-		SpriteSheet spriteSheetLeeche = new SpriteSheet(bufferedImageLeeche);
+		SpriteSheet spriteSheetLeeche = new SpriteSheet(bufferedImageLeeche);	
 		SpriteSheet spriteSheetMomie = new SpriteSheet(bufferedImageMomie);
 		
 		imageManager = new ImageManager(spriteSheet, spriteSheetMonster, spriteSheetBullet, spriteSheetSlime, spriteSheetLeeche, spriteSheetMomie);
@@ -138,6 +138,9 @@ public class Plateau extends JPanel implements ActionListener {
 			}
 			
 			if(playerHitBox.intersects(monsterObservationBox)){
+				
+		player.addObserver(monster);
+				
 				if(music){
 					playRun();
 				}
@@ -300,3 +303,6 @@ public class Plateau extends JPanel implements ActionListener {
 	}
 
 }
+
+
+
