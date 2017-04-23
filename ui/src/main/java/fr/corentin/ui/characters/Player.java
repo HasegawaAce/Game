@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.ImageIcon;
 
@@ -47,14 +45,10 @@ public final class Player extends Sprite{
 
 	@Getter
 	private List<Bullet> bullets = new ArrayList<>();
-
-	private int lastDx;
-
-	private int lastDy = 1;
-
+	
 	@Getter
 	private Joueur joueur;
-
+	
 	/**
 	 * Initialisation du player
 	 */
@@ -93,35 +87,7 @@ public final class Player extends Sprite{
 	 */
 	@Override
 	public void move() {
-
-		if ((getDx() > 0 && getX() <= (Game.SCREEN_WIDTH - Game.TILE_SIZE * Game.SCALE))
-				|| (getDx() < 0 && getX() >= 0)) {
-			setX(getX() + getDx());
-			if (getDx() > 0) {
-				animationSprite(3);
-			}
-			if (getDx() < 0) {
-				animationSprite(1);
-			}
-			if (getDy() == 0) {
-				lastDx = getDx();
-				lastDy = 0;
-			}
-		}
-		if ((getDy() > 0 && getY() < (Game.SCREEN_HEIGTH - Game.TILE_SIZE * Game.SCALE))
-				|| (getDy() < 0 && getY() >= 0)) {
-			setY(getY() + getDy());
-			if (getDy() > 0) {
-				animationSprite(2);
-			}
-			if (getDy() < 0) {
-				animationSprite(0);
-			}
-			if (getDx() == 0) {
-				lastDx = 0;
-				lastDy = getDy();
-			}
-		}
+		super.move();
 		
 		if(cooldowns.containsKey("create") && System.currentTimeMillis() - cooldowns.get("create") > joueur.getArme().getTimeBulletCreate()){
 			joueur.getArme().addBalle();
@@ -131,10 +97,16 @@ public final class Player extends Sprite{
 				cooldowns.put("create", System.currentTimeMillis());
 			}
 		}
+		
+		int position[] = {this.getX(), this.getY()};
+		
+		setChanged();
+		
+		this.notifyObservers(position);
 
 	}
 
-	private void animationSprite(int row) {
+	public void animationSprite(int row) {
 		if (currentRow == row) {
 			if (sleepSprite++ > 10) {
 				currentCol = (currentCol + 1) % nbCol;
@@ -146,7 +118,7 @@ public final class Player extends Sprite{
 			sleepSprite = 0;
 		}
 
-		ImageIcon ii = new ImageIcon(imageManager.getSheetPlayer().crop(currentCol, currentRow, 64, 64, 64, 64));
+		ImageIcon ii = new ImageIcon(imageManager.getSheetPlayer().crop(currentCol, currentRow, 64, 64));
 		setImage(ii.getImage());
 	}
 
@@ -163,16 +135,16 @@ public final class Player extends Sprite{
 
 		switch (key) {
 		case KeyEvent.VK_LEFT:
-			setDx(-1);
+			setDx(-2);
 			break;
 		case KeyEvent.VK_RIGHT:
-			setDx(1);
+			setDx(2);
 			break;
 		case KeyEvent.VK_UP:
-			setDy(-1);
+			setDy(-2);
 			break;
 		case KeyEvent.VK_DOWN:
-			setDy(1);
+			setDy(2);
 			break;
 		case KeyEvent.VK_SPACE:
 			fire();
@@ -219,8 +191,8 @@ public final class Player extends Sprite{
 			Bullet bullet = new Bullet(imageManager, getX() + (Game.TILE_SIZE * Game.SCALE) / 2,
 					getY() + (Game.TILE_SIZE * Game.SCALE) / 2, joueur.getArme().getVitesse());
 			if (getDx() == 0 && getDy() == 0) {
-				bullet.setDx(lastDx);
-				bullet.setDy(lastDy);
+				bullet.setDx(getLastDx());
+				bullet.setDy(getLastDy());
 			} else {
 				bullet.setDx(getDx());
 				bullet.setDy(getDy());
@@ -241,25 +213,5 @@ public final class Player extends Sprite{
 			this.setVisible(false);
 		}
 	}
-
-	@Override
-	public synchronized void addObserver(Observer arg0) {
-		// TODO Auto-generated method stub
-		super.addObserver(arg0);
-	}
-
-	@Override
-	public synchronized void deleteObserver(Observer arg0) {
-		// TODO Auto-generated method stub
-		super.deleteObserver(arg0);
-	}
-
-	@Override
-	public void notifyObservers(Object arg0) {
-		// TODO Auto-generated method stub
-		super.notifyObservers(arg0);
-	}
-	
-	
 }
 

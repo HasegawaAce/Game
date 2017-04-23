@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.Observable;
 
+import fr.corentin.ui.game.Game;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,6 +52,10 @@ public abstract class Sprite extends Observable {
 	private int yOffset;
 	
 	private boolean visible = true;
+
+	private int lastDx;
+
+	private int lastDy;
 	
 	/**
 	 * Méthode retournant le hitBox du sprite:
@@ -61,6 +66,42 @@ public abstract class Sprite extends Observable {
 		return new Rectangle(x + xOffset, y + yOffset, width - xOffset * 2, height - yOffset * 2);
 	}
 	
-	public abstract void move();
+	/**
+	 * Méthode de déplacement du sprite
+	 */
+	public void move() {
+
+		if ((getDx() > 0 && getX() <= (Game.SCREEN_WIDTH - Game.TILE_SIZE * Game.SCALE))
+				|| (getDx() < 0 && getX() >= 0)) {
+			setX(getX() + getDx());
+			if (getDx() > 0) {
+				animationSprite(2);
+			}
+			if (getDx() < 0) {
+				animationSprite(1);
+			}
+			if (getDy() == 0) {
+				lastDx = getDx();
+				lastDy = 0;
+			}
+		}
+		
+		if ((getDy() > 0 && getY() < (Game.SCREEN_HEIGTH - Game.TILE_SIZE * Game.SCALE))
+				|| (getDy() < 0 && getY() >= 0)) {
+			setY(getY() + getDy());
+			if (getDy() > 0) {
+				animationSprite(0);
+			}
+			if (getDy() < 0) {
+				animationSprite(3);
+			}
+			if (getDx() == 0) {
+				lastDy = getDy();
+				lastDx = 0;
+			}
+		}
+	}
+
+	public abstract void animationSprite(int i);
 	
 }

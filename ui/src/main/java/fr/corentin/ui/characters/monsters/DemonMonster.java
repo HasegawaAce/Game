@@ -4,11 +4,12 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import fr.corentin.core.monstres.Momie;
+import fr.corentin.core.monstres.Demon;
 import fr.corentin.ui.image.ImageManager;
 
-public class MomieMonster extends Momie implements MonsterUI {
-private ImageManager imageManager;
+public class DemonMonster extends Demon implements MonsterUI {
+
+	private ImageManager imageManager;
 	
 	private int currentCol = 0;
 
@@ -24,7 +25,7 @@ private ImageManager imageManager;
 	@Override
 	public ImageIcon getImageIcone(ImageManager imageManager) {
 		this.imageManager = imageManager;
-		return new ImageIcon(imageManager.getMomie());
+		return new ImageIcon(imageManager.getMonster());
 	}
 
 	@Override
@@ -40,10 +41,8 @@ private ImageManager imageManager;
 			sleepSprite = 0;
 		}
 
-		ImageIcon ii = new ImageIcon(imageManager.getSheetMomie().crop(currentCol, currentRow, 32, 32));
+		ImageIcon ii = new ImageIcon(imageManager.getSheetMonster().crop(currentCol, currentRow, 33, 51));
 		return ii.getImage();
 	}
 
-
 }
-

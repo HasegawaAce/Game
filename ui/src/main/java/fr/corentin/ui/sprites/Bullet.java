@@ -33,5 +33,10 @@ public class Bullet extends Sprite {
 		setWidth(Game.TILE_SIZE);
 		setHeight(Game.TILE_SIZE);
 		this.vitesse = vitesse;
+	}
+
+	@Override
+	public void animationSprite(int i) {
+		
 	}	
 }
