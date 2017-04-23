@@ -24,6 +24,9 @@ import fr.corentin.ui.characters.Player;
 import fr.corentin.ui.image.ImageLoader;
 import fr.corentin.ui.image.ImageManager;
 import fr.corentin.ui.image.SpriteSheet;
+import fr.corentin.ui.items.Drop;
+import fr.corentin.ui.items.ItemDrop;
+import fr.corentin.ui.items.ItemsFactory;
 import fr.corentin.ui.material.sounds.Sound;
 import fr.corentin.ui.sprites.Bullet;
 import fr.corentin.ui.sprites.Sprite;
@@ -44,6 +47,8 @@ public class Plateau extends JPanel implements ActionListener {
 	private Player player;
 
 	private List<Monster> monsters;
+	
+	private List<ItemDrop> items;
 
 	private final int DELAY = 10;
 
@@ -75,6 +80,7 @@ public class Plateau extends JPanel implements ActionListener {
 		BufferedImage bufferedImageSlime = imageLoader.load("/slime.png");
 		BufferedImage bufferedImageLeeche = imageLoader.load("/leeche.png");
 		BufferedImage bufferedImageMomie = imageLoader.load("/momie.png");
+		BufferedImage bufferedImageHeart = imageLoader.load("/heart.png");
 		
 		SpriteSheet spriteSheet = new SpriteSheet(bufferedImage);
 		SpriteSheet spriteSheetMonster = new SpriteSheet(bufferedImageMonster);
@@ -82,8 +88,9 @@ public class Plateau extends JPanel implements ActionListener {
 		SpriteSheet spriteSheetSlime = new SpriteSheet(bufferedImageSlime);
 		SpriteSheet spriteSheetLeeche = new SpriteSheet(bufferedImageLeeche);
 		SpriteSheet spriteSheetMomie = new SpriteSheet(bufferedImageMomie);
+		SpriteSheet spriteSheetHeart = new SpriteSheet(bufferedImageHeart);
 		
-		imageManager = new ImageManager(spriteSheet, spriteSheetMonster, spriteSheetBullet, spriteSheetSlime, spriteSheetLeeche, spriteSheetMomie);
+		imageManager = new ImageManager(spriteSheet, spriteSheetMonster, spriteSheetBullet, spriteSheetSlime, spriteSheetLeeche, spriteSheetMomie, spriteSheetHeart);
 
 		player = new Player(imageManager);
 		monsters = new ArrayList<>();
@@ -92,6 +99,8 @@ public class Plateau extends JPanel implements ActionListener {
 			monsters.add(new Monster(imageManager, 1));
 		}
 
+		items = new ArrayList<>();
+		
 		timer = new Timer(DELAY, this);
 		timer.start();
 	}
@@ -118,6 +127,8 @@ public class Plateau extends JPanel implements ActionListener {
 		// deplace tout les éléments "bullet" de la liste
 		player.getBullets().stream().forEach(bullet -> bullet.move());
 
+		items.stream().forEach(item -> item.move());
+		
 		// Recherche collisions
 		rechercherCollisions();
 
@@ -158,6 +169,11 @@ public class Plateau extends JPanel implements ActionListener {
 					if (monster.getMonstre().getNombreVie() <= 0) {
 						player.deleteObserver(monster);
 						monster.setVisible(false);
+						
+						Drop drop = monster.dropObject();
+						if(drop != null){
+							items.add(ItemsFactory.createItem(drop, imageManager, monster.getX(), monster.getY()));
+						}
 					}
 					bullet.setVisible(false);
 				}
@@ -199,6 +215,8 @@ public class Plateau extends JPanel implements ActionListener {
 		doDrawingMonster((Graphics2D) g);
 
 		doDrawingBullet((Graphics2D) g);
+		
+		doDrawingItems((Graphics2D) g);
 		// player.getBullets().stream().forEach(bullet ->
 		// g2d.drawImage(bullet.getImage(), bullet.getX(), bullet.getY(),
 		// Game.TILE_SIZE, Game.TILE_SIZE, this));
@@ -223,6 +241,21 @@ public class Plateau extends JPanel implements ActionListener {
 				}
 			} else {
 				player.getBullets().remove(i);
+			}
+		}
+	}
+	
+	private void doDrawingItems(Graphics2D g2d) {
+		for (int i = 0; i < items.size(); i++) {
+			ItemDrop item = items.get(i);
+
+			if (item.isVisible()) {
+				g2d.drawImage(item.getImage(), item.getX(), item.getY(), Game.TILE_SIZE, Game.TILE_SIZE, this);
+				if (Game.DEBUG) {
+					debugBox(item, g2d);
+				}
+			} else {
+				items.remove(i);
 			}
 		}
 	}

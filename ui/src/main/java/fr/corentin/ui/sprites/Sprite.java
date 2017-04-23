@@ -100,8 +100,6 @@ public abstract class Sprite extends Observable {
 				lastDx = 0;
 			}
 		}
-		
-		System.out.println(" " + lastDx + "/" + lastDy );
 	}
 
 	public abstract void animationSprite(int i);

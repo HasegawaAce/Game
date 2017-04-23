@@ -16,6 +16,9 @@ public class ImageManager {
 	
 	@Getter
 	private SpriteSheet sheetMonster;
+
+	@Getter
+	private SpriteSheet sheetHeart;
 	
 	@Getter
 	private SpriteSheet sheetSlime;
@@ -59,12 +62,16 @@ public class ImageManager {
 	@Getter
 	private BufferedImage gargoyle;
 	
+	@Getter
+	private BufferedImage heart;
+	
 	public ImageManager(SpriteSheet... spriteSheet){
 		sheetPlayer = spriteSheet[0];
 		sheetMonster = spriteSheet[1];
 		sheetSlime = spriteSheet[3];
 		sheetLeeche = spriteSheet[4];
 		sheetMomie = spriteSheet[5];
+		sheetHeart = spriteSheet[6];
 		
 		player = spriteSheet[0].crop(3, 2, 64, 64);
 		monster = spriteSheet[1].crop(0,  0, 33, 51); 
@@ -77,6 +84,7 @@ public class ImageManager {
 		ogre = spriteSheet[1].crop(6,  0, 32, 50);
 		mort = spriteSheet[1].crop(6,  4, 32, 50);
 		gargoyle = spriteSheet[1].crop(9,  0, 32, 50);
+		heart = spriteSheet[6].crop(0,  0, 24, 34);
 	}
 
 }

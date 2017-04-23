@@ -13,6 +13,7 @@ import fr.corentin.ui.characters.monsters.MonsterUI;
 import fr.corentin.ui.game.Bestiaire;
 import fr.corentin.ui.game.Game;
 import fr.corentin.ui.image.ImageManager;
+import fr.corentin.ui.items.Drop;
 import fr.corentin.ui.sprites.Sprite;
 import lombok.Getter;
 
@@ -90,6 +91,10 @@ public class Monster extends Sprite  implements Observer {
 			setDy(0);
 		}
 		
+	}
+	
+	public Drop dropObject(){
+		return Drop.HEART;
 	}
 
 	@Override
