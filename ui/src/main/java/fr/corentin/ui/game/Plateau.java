@@ -156,7 +156,17 @@ public class Plateau extends JPanel implements ActionListener {
 				}
 			}
 		}
+		
+		for (ItemDrop item : items) {
+			Rectangle itemHitBox = item.getBounds();
+			
+			if (playerHitBox.intersects(itemHitBox)) {
+				player.getJoueur().gagnerPointVie(2);
+				item.setVisible(false);
+			}
+		}
 
+		
 		for (Bullet bullet : player.getBullets()) {
 			Rectangle bulletHitBox = bullet.getBounds();
 
