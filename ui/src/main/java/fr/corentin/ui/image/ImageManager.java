@@ -65,6 +65,9 @@ public class ImageManager {
 	@Getter
 	private BufferedImage heart;
 	
+	@Getter
+	private BufferedImage fond;
+	
 	public ImageManager(SpriteSheet... spriteSheet){
 		sheetPlayer = spriteSheet[0];
 		sheetMonster = spriteSheet[1];
