@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -56,6 +57,9 @@ public class Plateau extends JPanel implements ActionListener {
 
 	private boolean music = true;
 	
+	private Image background;
+	
+	
 	/**
 	 * Constructeur de la classe
 	 */
@@ -81,6 +85,7 @@ public class Plateau extends JPanel implements ActionListener {
 		BufferedImage bufferedImageLeeche = imageLoader.load("/leeche.png");
 		BufferedImage bufferedImageMomie = imageLoader.load("/momie.png");
 		BufferedImage bufferedImageHeart = imageLoader.load("/heart.png");
+		background = imageLoader.load("/fond.png");
 		
 		SpriteSheet spriteSheet = new SpriteSheet(bufferedImage);
 		SpriteSheet spriteSheetMonster = new SpriteSheet(bufferedImageMonster);
@@ -221,6 +226,7 @@ public class Plateau extends JPanel implements ActionListener {
 
 		Graphics2D g2d = (Graphics2D) g;
 
+		g2d.drawImage(background, 0, 0, null);
 		doDrawingPlayer((Graphics2D) g);
 
 		doDrawingMonster((Graphics2D) g);
