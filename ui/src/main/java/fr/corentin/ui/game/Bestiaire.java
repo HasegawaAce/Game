@@ -16,14 +16,14 @@ import fr.corentin.ui.characters.monsters.SqueletteMonster;
 
 public enum Bestiaire {
 
-	SLIME(2),
-	DEMON(2),
-	LEECHE(2),
-	MOMIE(2),
-	SQUELETTE(2),
-	DJEEN(2),
-	OGRE(2),
-	MORT(2),
+	SLIME(1),
+	DEMON(1),
+	LEECHE(1),
+	MOMIE(1),
+	SQUELETTE(1),
+	DJEEN(1),
+	OGRE(1),
+	MORT(1),
 	GARGOYLE(1),
 	;
 	
