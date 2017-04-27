@@ -153,6 +153,10 @@ public class Plateau extends JPanel implements ActionListener {
 				player.lostLife(1);
 			}
 			
+			if (playerHitBox.intersects(monsterHitBox)) {
+				player.setY(player.getY() + player.getDy() * -50);
+			}
+			
 			if(playerHitBox.intersects(monsterObservationBox)){
 
 				player.addObserver(monster);
