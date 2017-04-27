@@ -148,12 +148,12 @@ public class Plateau extends JPanel implements ActionListener {
 			Rectangle monsterHitBox = monster.getBounds();
 			Rectangle monsterObservationBox = monster.getObservationBounds();
 			
-			if (playerHitBox.intersects(monsterHitBox) || monsterHitBox.intersects(playerHitBox)) {
+			if (playerHitBox.intersects(monsterHitBox)) {
 				player.setX(player.getX() + player.getDx() * -50);
 				player.lostLife(1);
 			}
 			
-			if (playerHitBox.intersects(monsterHitBox) || monsterHitBox.intersects(playerHitBox)) {
+			if (playerHitBox.intersects(monsterHitBox)) {
 				player.setY(player.getY() + player.getDy() * -50);
 			}
 			
