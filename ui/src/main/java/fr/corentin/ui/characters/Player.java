@@ -73,7 +73,7 @@ public final class Player extends Sprite{
 		setHeight(Game.TILE_SIZE * Game.SCALE);
 
 		joueur = new Joueur();
-		joueur.setArme(Armurerie.MITRAILLEUSE.getInstance());
+		joueur.setArme(Armurerie.CRIQUET.getInstance());
 		
 		cooldowns.put("tir", 0l);
 		//cooldowns.put("create", 0l);

@@ -14,7 +14,7 @@ public class MovingSprite extends JFrame {
 	}
 	
 	private void initUI() {
-		add(new Plateau());
+		add(new Plateau(1));
 		
 		setSize(Game.SCREEN_WIDTH, Game.SCREEN_HEIGTH);
 		setResizable(false);

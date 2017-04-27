@@ -8,6 +8,8 @@ public class ItemsFactory {
 		switch (drop) {
 		case HEART:
 			return new HeartDrop(imageManager, x, y);
+		case ARME:
+			System.out.println("C'est une arme dude");
 		default:
 			break;
 		}

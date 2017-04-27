@@ -94,7 +94,7 @@ public class Monster extends Sprite  implements Observer {
 	}
 	
 	public Drop dropObject(){
-		return Drop.HEART;
+		return Drop.getDrop();
 	}
 
 	@Override

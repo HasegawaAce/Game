@@ -59,11 +59,13 @@ public class Plateau extends JPanel implements ActionListener {
 	
 	private Image background;
 	
+	private int level;
 	
 	/**
 	 * Constructeur de la classe
 	 */
-	public Plateau() {
+	public Plateau(int level) {
+		this.level = level;
 		initPlateau();
 	}
 
@@ -101,7 +103,7 @@ public class Plateau extends JPanel implements ActionListener {
 		monsters = new ArrayList<>();
 
 		for (int i = 0; i < Game.MONSTERS; i++) {
-			monsters.add(new Monster(imageManager, 1));
+			monsters.add(new Monster(imageManager, level));
 		}
 
 		items = new ArrayList<>();
@@ -125,6 +127,13 @@ public class Plateau extends JPanel implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 
+		if(monsters.isEmpty()){
+			// Relancer avec 1 niveau de plus
+			level++;
+			timer.stop();
+			initPlateau();
+		}
+		
 		// deplace le joueur
 		player.move();
 		// deplace tout les éléments "monstre" de la liste
@@ -150,13 +159,10 @@ public class Plateau extends JPanel implements ActionListener {
 			
 			if (playerHitBox.intersects(monsterHitBox)) {
 				player.setX(player.getX() + player.getDx() * -50);
+				player.setY(player.getY() + player.getDy() * -50);
 				player.lostLife(1);
 			}
-			
-			if (playerHitBox.intersects(monsterHitBox)) {
-				player.setY(player.getY() + player.getDy() * -50);
-			}
-			
+						
 			if(playerHitBox.intersects(monsterObservationBox)){
 
 				player.addObserver(monster);
